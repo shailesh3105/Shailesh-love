@@ -31,8 +31,13 @@ document.addEventListener("mousemove", (e) => {
 
 // YES click
 yesBtn.addEventListener("click", () => {
+    let count = localStorage.getItem("yesCount") || 0;
+    count++;
+    localStorage.setItem("yesCount", count);
+
     question.style.display = "none";
     noBtn.style.display = "none";
     yesBtn.style.display = "none";
-    message.innerHTML = "Yayyy!! 💖 I knew it 😍";
+
+    message.innerHTML = `She clicked YES 💖<br>Total YES clicks: ${count}`;
 });
