@@ -3,20 +3,36 @@ const yesBtn = document.getElementById("yesBtn");
 const message = document.getElementById("message");
 const question = document.getElementById("question");
 
-// Move NO button when mouse comes near
-noBtn.addEventListener("mouseover", () => {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 100);
+// Move NO button away from cursor
+document.addEventListener("mousemove", (e) => {
+    const btnRect = noBtn.getBoundingClientRect();
+    const cursorX = e.clientX;
+    const cursorY = e.clientY;
 
-    noBtn.style.left = `${x}px`;
-    noBtn.style.top = `${y}px`;
+    const distance = 80; // how close cursor can get
+
+    if (
+        cursorX > btnRect.left - distance &&
+        cursorX < btnRect.right + distance &&
+        cursorY > btnRect.top - distance &&
+        cursorY < btnRect.bottom + distance
+    ) {
+        let newX = btnRect.left + (btnRect.left - cursorX);
+        let newY = btnRect.top + (btnRect.top - cursorY);
+
+        // Keep button inside screen
+        newX = Math.max(0, Math.min(window.innerWidth - btnRect.width, newX));
+        newY = Math.max(0, Math.min(window.innerHeight - btnRect.height, newY));
+
+        noBtn.style.left = `${newX}px`;
+        noBtn.style.top = `${newY}px`;
+    }
 });
 
-// YES button click
+// YES click
 yesBtn.addEventListener("click", () => {
     question.style.display = "none";
     noBtn.style.display = "none";
     yesBtn.style.display = "none";
-
-    message.innerHTML = "Yayyy!! 💖 I knew it 😍<br>Happy Valentine’s Day 💕";
+    message.innerHTML = "Yayyy!! 💖 I knew it 😍";
 });
